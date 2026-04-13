@@ -1,0 +1,2157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GreenForge — Sustainable Business Ideation Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,800;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+/* ─── CSS VARIABLES ─── */
+:root {
+  --forest:   #0e2118;
+  --deep:     #152d20;
+  --mid:      #1e4030;
+  --sage:     #3a7d54;
+  --lime:     #b5e848;
+  --lime-dim: #8fc438;
+  --cream:    #f2ede3;
+  --sand:     #d9d0bc;
+  --muted:    #8a9e90;
+  --white:    #ffffff;
+  --danger:   #e8534a;
+  --amber:    #f0b429;
+  --sky:      #5bc4d4;
+
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body:    'Plus Jakarta Sans', sans-serif;
+
+  --r-sm: 8px;
+  --r-md: 16px;
+  --r-lg: 24px;
+  --r-xl: 40px;
+
+  --shadow-card: 0 4px 24px rgba(0,0,0,0.25);
+  --shadow-glow: 0 0 40px rgba(181,232,72,0.18);
+}
+
+/* ─── RESET & BASE ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--forest);
+  color: var(--cream);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+input, textarea, select {
+  font-family: inherit;
+  outline: none;
+  border: none;
+}
+img { max-width: 100%; display: block; }
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--forest); }
+::-webkit-scrollbar-thumb { background: var(--sage); border-radius: 3px; }
+
+/* ─── PAGE ROUTING ─── */
+.page { display: none; min-height: 100vh; }
+.page.active { display: block; }
+
+/* ─── NAV ─── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 18px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(14,33,24,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(58,125,84,0.25);
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  cursor: pointer;
+}
+.nav-logo-mark {
+  width: 36px; height: 36px;
+  background: var(--lime);
+  border-radius: 50% 50% 50% 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.nav-logo-text {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: -0.5px;
+}
+.nav-logo-text span { color: var(--lime); }
+.nav-links {
+  display: flex; gap: 6px;
+  list-style: none;
+}
+.nav-links li a, .nav-links li button {
+  padding: 8px 16px;
+  border-radius: var(--r-sm);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--sand);
+  transition: all 0.2s;
+  background: none;
+}
+.nav-links li a:hover, .nav-links li button:hover,
+.nav-links li a.active, .nav-links li button.active {
+  color: var(--lime);
+  background: rgba(181,232,72,0.1);
+}
+.nav-cta {
+  background: var(--lime) !important;
+  color: var(--forest) !important;
+  font-weight: 700 !important;
+  padding: 8px 20px !important;
+  transition: all 0.2s !important;
+}
+.nav-cta:hover { background: var(--lime-dim) !important; transform: translateY(-1px); }
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  padding: 120px 40px 80px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 70% 50%, rgba(58,125,84,0.25) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(181,232,72,0.08) 0%, transparent 60%),
+    var(--forest);
+}
+.hero-grid-overlay {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(58,125,84,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(58,125,84,0.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 80%);
+}
+.hero-content {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(181,232,72,0.12);
+  border: 1px solid rgba(181,232,72,0.3);
+  border-radius: 100px;
+  padding: 6px 14px 6px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--lime);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 28px;
+}
+.hero-badge-dot {
+  width: 8px; height: 8px;
+  background: var(--lime);
+  border-radius: 50%;
+  animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.4); }
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(42px, 5vw, 68px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  margin-bottom: 24px;
+  color: var(--white);
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--lime);
+}
+.hero-subtitle {
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 480px;
+  margin-bottom: 40px;
+}
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--lime);
+  color: var(--forest);
+  font-weight: 700;
+  font-size: 15px;
+  padding: 14px 28px;
+  border-radius: var(--r-md);
+  transition: all 0.2s;
+  border: 2px solid var(--lime);
+}
+.btn-primary:hover {
+  background: var(--lime-dim);
+  border-color: var(--lime-dim);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(181,232,72,0.3);
+}
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--cream);
+  font-weight: 600;
+  font-size: 15px;
+  padding: 14px 28px;
+  border-radius: var(--r-md);
+  border: 2px solid rgba(242,237,227,0.2);
+  transition: all 0.2s;
+}
+.btn-secondary:hover {
+  border-color: rgba(242,237,227,0.5);
+  background: rgba(242,237,227,0.05);
+  transform: translateY(-2px);
+}
+.hero-stats {
+  display: flex;
+  gap: 32px;
+  margin-top: 52px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(58,125,84,0.25);
+}
+.hero-stat-num {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.hero-stat-num span { color: var(--lime); }
+.hero-stat-label { font-size: 13px; color: var(--muted); }
+
+/* Hero right panel */
+.hero-panel {
+  background: rgba(21,45,32,0.7);
+  border: 1px solid rgba(58,125,84,0.3);
+  border-radius: var(--r-xl);
+  padding: 32px;
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+  animation: float 6s ease-in-out infinite;
+}
+@keyframes float {
+  0%,100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+.hero-panel::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 160px; height: 160px;
+  background: radial-gradient(circle, rgba(181,232,72,0.15), transparent 70%);
+  border-radius: 50%;
+}
+.panel-tag {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--lime);
+  margin-bottom: 16px;
+}
+.panel-idea-card {
+  background: rgba(14,33,24,0.8);
+  border: 1px solid rgba(58,125,84,0.4);
+  border-radius: var(--r-md);
+  padding: 18px;
+  margin-bottom: 12px;
+  transition: all 0.3s;
+}
+.panel-idea-card:hover {
+  border-color: var(--lime);
+  transform: translateX(4px);
+}
+.panel-idea-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+.panel-idea-meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.panel-chip {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 100px;
+}
+.chip-green { background: rgba(181,232,72,0.15); color: var(--lime); }
+.chip-blue  { background: rgba(91,196,212,0.15); color: var(--sky); }
+.chip-amber { background: rgba(240,180,41,0.15); color: var(--amber); }
+
+.panel-score {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(58,125,84,0.2);
+}
+.score-label { font-size: 12px; color: var(--muted); flex: 1; }
+.score-bar-wrap { flex: 2; height: 6px; background: rgba(58,125,84,0.2); border-radius: 3px; overflow: hidden; }
+.score-bar { height: 100%; background: linear-gradient(90deg, var(--sage), var(--lime)); border-radius: 3px; }
+.score-val { font-size: 13px; font-weight: 700; color: var(--lime); width: 32px; text-align: right; }
+
+/* ─── SECTION BASE ─── */
+.section {
+  padding: 96px 40px;
+}
+.section-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--lime);
+  margin-bottom: 16px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+.section-title em { font-style: italic; color: var(--lime); }
+.section-sub {
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 560px;
+  margin-bottom: 56px;
+}
+
+/* ─── FEATURE CARDS ─── */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.feat-card {
+  background: var(--deep);
+  border: 1px solid rgba(58,125,84,0.2);
+  border-radius: var(--r-lg);
+  padding: 32px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.feat-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--sage), var(--lime));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s;
+}
+.feat-card:hover {
+  border-color: rgba(181,232,72,0.3);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-glow);
+}
+.feat-card:hover::after { transform: scaleX(1); }
+.feat-icon {
+  width: 52px; height: 52px;
+  border-radius: var(--r-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+.feat-icon-green { background: rgba(181,232,72,0.12); }
+.feat-icon-blue  { background: rgba(91,196,212,0.12); }
+.feat-icon-amber { background: rgba(240,180,41,0.12); }
+.feat-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 10px;
+  letter-spacing: -0.3px;
+}
+.feat-desc {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+/* ─── CATEGORIES ─── */
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 48px;
+}
+.cat-card {
+  background: var(--deep);
+  border: 1px solid rgba(58,125,84,0.2);
+  border-radius: var(--r-md);
+  padding: 28px 22px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.cat-card:hover, .cat-card.selected {
+  border-color: var(--lime);
+  background: rgba(181,232,72,0.06);
+  transform: translateY(-3px);
+}
+.cat-card.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 10px; right: 12px;
+  background: var(--lime);
+  color: var(--forest);
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+}
+.cat-emoji { font-size: 36px; margin-bottom: 10px; }
+.cat-name { font-size: 13px; font-weight: 600; color: var(--cream); }
+
+/* ─── IDEATION TOOL ─── */
+.ideation-tool {
+  background: var(--deep);
+  border: 1px solid rgba(58,125,84,0.25);
+  border-radius: var(--r-xl);
+  padding: 48px;
+  margin-top: 40px;
+}
+.ideation-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 36px;
+  gap: 20px;
+}
+.ideation-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.8px;
+}
+.ideation-subtitle {
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+.form-group { display: flex; flex-direction: column; gap: 8px; }
+.form-group.full { grid-column: 1 / -1; }
+.form-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sand);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+.form-input, .form-select, .form-textarea {
+  background: rgba(14,33,24,0.8);
+  border: 1px solid rgba(58,125,84,0.3);
+  border-radius: var(--r-sm);
+  padding: 12px 16px;
+  font-size: 14px;
+  color: var(--cream);
+  transition: border-color 0.2s;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--lime);
+}
+.form-select option { background: var(--deep); }
+.form-textarea { resize: vertical; min-height: 90px; }
+.form-input::placeholder, .form-textarea::placeholder { color: var(--muted); }
+
+/* ─── IDEA OUTPUT ─── */
+.idea-output {
+  display: none;
+  margin-top: 32px;
+  animation: fadeUp 0.4s ease;
+}
+.idea-output.visible { display: block; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.idea-result-card {
+  background: linear-gradient(135deg, rgba(21,45,32,0.9), rgba(30,64,48,0.9));
+  border: 1px solid rgba(181,232,72,0.3);
+  border-radius: var(--r-lg);
+  padding: 36px;
+  position: relative;
+  overflow: hidden;
+}
+.idea-result-card::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(181,232,72,0.1), transparent 70%);
+  border-radius: 50%;
+}
+.idea-result-title {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 14px;
+  letter-spacing: -0.8px;
+}
+.idea-result-desc {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--sand);
+  margin-bottom: 28px;
+}
+.idea-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 28px;
+}
+.idea-tag {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 100px;
+  border: 1px solid;
+}
+.tag-lime { border-color: var(--lime); color: var(--lime); background: rgba(181,232,72,0.08); }
+.tag-sky  { border-color: var(--sky);  color: var(--sky);  background: rgba(91,196,212,0.08); }
+.tag-amber{ border-color: var(--amber);color: var(--amber);background: rgba(240,180,41,0.08); }
+
+.idea-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding: 24px 0;
+  border-top: 1px solid rgba(58,125,84,0.2);
+  border-bottom: 1px solid rgba(58,125,84,0.2);
+  margin-bottom: 24px;
+}
+.metric-item { text-align: center; }
+.metric-val {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.metric-val.green { color: var(--lime); }
+.metric-val.blue  { color: var(--sky); }
+.metric-val.amber { color: var(--amber); }
+.metric-label { font-size: 12px; color: var(--muted); }
+
+/* ─── BMC (Business Model Canvas) ─── */
+.bmc-wrapper {
+  background: var(--deep);
+  border: 1px solid rgba(58,125,84,0.25);
+  border-radius: var(--r-xl);
+  padding: 40px;
+  overflow-x: auto;
+}
+.bmc-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.bmc-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: auto auto;
+  gap: 12px;
+  min-width: 900px;
+}
+.bmc-cell {
+  background: rgba(14,33,24,0.6);
+  border: 1px solid rgba(58,125,84,0.25);
+  border-radius: var(--r-md);
+  padding: 18px;
+  min-height: 150px;
+  transition: border-color 0.2s;
+}
+.bmc-cell:hover { border-color: rgba(181,232,72,0.4); }
+.bmc-cell-label {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.bmc-cell-content {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--sand);
+  width: 100%;
+  background: transparent;
+  resize: none;
+  min-height: 90px;
+  color: var(--sand);
+}
+.bmc-cell-content::placeholder { color: rgba(138,158,144,0.5); font-style: italic; }
+.bmc-span-2 { grid-column: span 2; }
+.bmc-bottom {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  min-width: 900px;
+  margin-top: 12px;
+}
+.bmc-bottom-cell {
+  background: rgba(14,33,24,0.6);
+  border: 1px solid rgba(58,125,84,0.25);
+  border-radius: var(--r-md);
+  padding: 18px;
+  min-height: 120px;
+  transition: border-color 0.2s;
+}
+.bmc-bottom-cell:hover { border-color: rgba(181,232,72,0.4); }
+.bmc-eco {
+  margin-top: 20px;
+  background: rgba(181,232,72,0.06);
+  border: 1px solid rgba(181,232,72,0.2);
+  border-radius: var(--r-md);
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.bmc-eco-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--lime);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex: 1;
+  min-width: 140px;
+}
+.bmc-eco-input {
+  flex: 4;
+  background: transparent;
+  border: none;
+  color: var(--cream);
+  font-size: 14px;
+  border-bottom: 1px solid rgba(181,232,72,0.25);
+  padding: 4px 0;
+}
+.bmc-eco-input::placeholder { color: var(--muted); font-style: italic; }
+
+/* ─── VALIDATION DASHBOARD ─── */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+.dashboard-left { display: flex; flex-direction: column; gap: 24px; }
+.dashboard-right { display: flex; flex-direction: column; gap: 24px; }
+.dash-card {
+  background: var(--deep);
+  border: 1px solid rgba(58,125,84,0.2);
+  border-radius: var(--r-lg);
+  padding: 28px;
+}
+.dash-card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+/* Validation score ring */
+.score-ring-container {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.score-ring-wrap { position: relative; width: 120px; height: 120px; flex-shrink: 0; }
+.score-ring-wrap svg { transform: rotate(-90deg); }
+.score-ring-val {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--lime);
+}
+.score-ring-val span {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  margin-top: -2px;
+}
+.score-breakdown { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+.score-row { display: flex; align-items: center; gap: 10px; }
+.score-row-label { font-size: 13px; color: var(--muted); width: 130px; }
+.score-row-bar { flex: 1; height: 6px; background: rgba(58,125,84,0.2); border-radius: 3px; overflow: hidden; }
+.score-row-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--sage), var(--lime)); }
+.score-row-val { font-size: 12px; font-weight: 700; color: var(--cream); width: 28px; text-align: right; }
+
+/* SDG badges */
+.sdg-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+.sdg-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 64px; height: 64px;
+  border-radius: var(--r-sm);
+  font-size: 10px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.3;
+  padding: 6px;
+  transition: transform 0.2s;
+  cursor: default;
+}
+.sdg-badge:hover { transform: scale(1.08); }
+.sdg-badge .sdg-num {
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+/* Impact timeline */
+.timeline { display: flex; flex-direction: column; gap: 0; }
+.timeline-item {
+  display: flex;
+  gap: 16px;
+  padding-bottom: 24px;
+  position: relative;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 17px;
+  top: 36px;
+  bottom: 0;
+  width: 2px;
+  background: rgba(58,125,84,0.2);
+}
+.timeline-item:last-child::before { display: none; }
+.timeline-dot {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--sage);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  background: var(--deep);
+  position: relative;
+  z-index: 1;
+}
+.timeline-dot.active {
+  border-color: var(--lime);
+  background: rgba(181,232,72,0.12);
+}
+.timeline-content { flex: 1; padding-top: 4px; }
+.timeline-phase {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 3px;
+}
+.timeline-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.timeline-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 100px;
+  margin-top: 6px;
+  display: inline-block;
+}
+
+/* ─── BUDGET PAGE ─── */
+.budget-overview {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 40px;
+}
+.budget-kpi {
+  background: var(--deep);
+  border: 1px solid rgba(58,125,84,0.2);
+  border-radius: var(--r-lg);
+  padding: 28px;
+  text-align: center;
+}
+.budget-kpi-val {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--lime);
+  margin-bottom: 6px;
+}
+.budget-kpi-label { font-size: 13px; color: var(--muted); }
+.budget-table-wrap {
+  background: var(--deep);
+  border: 1px solid rgba(58,125,84,0.2);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+thead tr {
+  background: rgba(58,125,84,0.15);
+}
+thead th {
+  padding: 16px 24px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--lime);
+  text-align: left;
+}
+tbody tr {
+  border-bottom: 1px solid rgba(58,125,84,0.12);
+  transition: background 0.15s;
+}
+tbody tr:hover { background: rgba(58,125,84,0.08); }
+tbody tr:last-child { border-bottom: none; }
+td {
+  padding: 16px 24px;
+  font-size: 14px;
+  color: var(--sand);
+  vertical-align: top;
+}
+td:first-child { font-weight: 600; color: var(--cream); }
+td:last-child { font-weight: 700; color: var(--lime); text-align: right; }
+.budget-total-row {
+  background: rgba(181,232,72,0.08) !important;
+  border-top: 2px solid rgba(181,232,72,0.3) !important;
+}
+.budget-total-row td {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: var(--white) !important;
+}
+.budget-total-row td:last-child { color: var(--lime) !important; font-size: 18px !important; }
+
+.process-steps {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 40px;
+}
+.process-step {
+  background: var(--deep);
+  border: 1px solid rgba(58,125,84,0.2);
+  border-radius: var(--r-lg);
+  padding: 28px;
+  display: flex;
+  gap: 20px;
+}
+.step-num {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 800;
+  color: rgba(181,232,72,0.15);
+  line-height: 1;
+  flex-shrink: 0;
+  width: 52px;
+}
+.step-body {}
+.step-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.step-desc {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--muted);
+}
+.step-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+.tech-pill {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 100px;
+  background: rgba(58,125,84,0.2);
+  border: 1px solid rgba(58,125,84,0.4);
+  color: var(--sage);
+}
+
+/* ─── LOADING ─── */
+.loading-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--sage), var(--lime));
+  width: 0;
+  z-index: 200;
+  transition: width 0.3s;
+}
+.loading-bar.active { width: 70%; }
+.loading-bar.done { width: 100%; opacity: 0; transition: width 0.3s, opacity 0.3s 0.3s; }
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--deep);
+  border-top: 1px solid rgba(58,125,84,0.2);
+  padding: 40px;
+}
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.footer-copy { font-size: 13px; color: var(--muted); }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { font-size: 13px; color: var(--muted); transition: color 0.2s; }
+.footer-links a:hover { color: var(--lime); }
+
+/* ─── UTILITIES ─── */
+.text-lime { color: var(--lime); }
+.text-sky  { color: var(--sky); }
+.text-amber{ color: var(--amber); }
+.text-white{ color: var(--white); }
+.text-muted{ color: var(--muted); }
+.mt-24 { margin-top: 24px; }
+.mt-40 { margin-top: 40px; }
+.flex { display: flex; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.gap-12 { gap: 12px; }
+.fw-700 { font-weight: 700; }
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 32px; right: 32px;
+  background: var(--lime);
+  color: var(--forest);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 14px 22px;
+  border-radius: var(--r-md);
+  z-index: 999;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transform: translateY(80px);
+  opacity: 0;
+  transition: all 0.3s;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .hero-content { grid-template-columns: 1fr; }
+  .hero-panel { display: none; }
+  .features-grid { grid-template-columns: 1fr; }
+  .categories-grid { grid-template-columns: repeat(2, 1fr); }
+  .form-row { grid-template-columns: 1fr; }
+  .idea-metrics { grid-template-columns: repeat(2, 1fr); }
+  .dashboard-grid { grid-template-columns: 1fr; }
+  .budget-overview { grid-template-columns: 1fr; }
+  .process-steps { grid-template-columns: 1fr; }
+  nav { padding: 14px 20px; }
+  .nav-links { display: none; }
+  .section { padding: 64px 20px; }
+  .hero { padding: 100px 20px 60px; }
+  .ideation-tool { padding: 28px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Loading bar -->
+<div class="loading-bar" id="loadingBar"></div>
+
+<!-- Toast -->
+<div class="toast" id="toast">✓ Idea saved to your workspace!</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="navigate('home')">
+    <div class="nav-logo-mark">🌱</div>
+    <div class="nav-logo-text">Green<span>Forge</span></div>
+  </div>
+  <ul class="nav-links">
+    <li><button class="nav-btn active" data-page="home" onclick="navigate('home')">Home</button></li>
+    <li><button class="nav-btn" data-page="ideate" onclick="navigate('ideate')">💡 Ideate</button></li>
+    <li><button class="nav-btn" data-page="canvas" onclick="navigate('canvas')">📋 BM Canvas</button></li>
+    <li><button class="nav-btn" data-page="validate" onclick="navigate('validate')">📊 Validate</button></li>
+    <li><button class="nav-btn" data-page="budget" onclick="navigate('budget')">💰 Budget & Docs</button></li>
+    <li><button class="nav-cta" onclick="navigate('ideate')">Start Ideating →</button></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════════════════════════════ PAGE: HOME ═══════════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-left">
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          Now Live — Sustainable Innovation Platform
+        </div>
+        <h1 class="hero-title">
+          Build the<br/>
+          <em>Future</em> of<br/>
+          Sustainable Business
+        </h1>
+        <p class="hero-subtitle">
+          GreenForge is a digital platform that helps entrepreneurs ideate, model, 
+          and validate sustainable business concepts — from recycling ventures to 
+          circular economy startups.
+        </p>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="navigate('ideate')">
+            🚀 Start Ideating
+          </button>
+          <button class="btn-secondary" onclick="navigate('canvas')">
+            View BM Canvas →
+          </button>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-num">12<span>+</span></div>
+            <div class="hero-stat-label">Sustainability Categories</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">17</div>
+            <div class="hero-stat-label">UN SDG Alignments</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">5<span>★</span></div>
+            <div class="hero-stat-label">Validation Dimensions</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-panel">
+        <div class="panel-tag">🔥 Featured Ideas This Week</div>
+        <div class="panel-idea-card">
+          <div class="panel-idea-title">AI-Powered E-Waste Sorting Kiosk</div>
+          <div class="panel-idea-meta">
+            <span class="panel-chip chip-green">Recycling</span>
+            <span class="panel-chip chip-blue">AI/IoT</span>
+          </div>
+        </div>
+        <div class="panel-idea-card">
+          <div class="panel-idea-title">Community Upcycled Furniture Co-op</div>
+          <div class="panel-idea-meta">
+            <span class="panel-chip chip-amber">Circular Economy</span>
+            <span class="panel-chip chip-green">Social Impact</span>
+          </div>
+        </div>
+        <div class="panel-idea-card">
+          <div class="panel-idea-title">Mycelium Packaging Subscription Box</div>
+          <div class="panel-idea-meta">
+            <span class="panel-chip chip-green">Green Materials</span>
+            <span class="panel-chip chip-blue">B2B SaaS</span>
+          </div>
+        </div>
+        <div class="panel-score">
+          <span class="score-label">Avg. Viability Score</span>
+          <div class="score-bar-wrap"><div class="score-bar" style="width:78%"></div></div>
+          <span class="score-val">78%</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section" style="background: var(--deep);">
+    <div class="section-inner">
+      <div class="section-tag">⚡ Platform Features</div>
+      <h2 class="section-title">Everything You Need to<br/><em>Validate a Green Idea</em></h2>
+      <p class="section-sub">
+        From the first spark of an idea to a fully mapped business model — GreenForge guides you through every step of sustainable venture creation.
+      </p>
+      <div class="features-grid">
+        <div class="feat-card">
+          <div class="feat-icon feat-icon-green">💡</div>
+          <div class="feat-title">Smart Idea Generator</div>
+          <div class="feat-desc">Input your sustainability focus area, target market, and resources. Get structured, actionable business ideas with market potential scores and SDG alignment.</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon feat-icon-blue">📋</div>
+          <div class="feat-title">Eco Business Model Canvas</div>
+          <div class="feat-desc">A sustainability-enhanced Business Model Canvas with an additional "Environmental Impact" section to quantify your venture's ecological footprint and positive contribution.</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon feat-icon-amber">📊</div>
+          <div class="feat-title">Validation Dashboard</div>
+          <div class="feat-desc">Score your idea across 5 dimensions: Market Viability, Environmental Impact, Financial Feasibility, Social Benefit, and Scalability. Get a composite Greenability™ Score.</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon feat-icon-green">🎯</div>
+          <div class="feat-title">SDG Alignment Mapper</div>
+          <div class="feat-desc">Automatically map your business concept to the UN Sustainable Development Goals to strengthen grant applications, investor pitches, and impact reporting.</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon feat-icon-blue">♻️</div>
+          <div class="feat-title">Circular Economy Toolkit</div>
+          <div class="feat-desc">Templates and frameworks for designing closed-loop systems, waste-to-resource pipelines, and regenerative business models across industries.</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon feat-icon-amber">📄</div>
+          <div class="feat-title">Export & Report Builder</div>
+          <div class="feat-desc">Generate professional pitch decks, impact reports, and business plan summaries from your Canvas and Validation data — ready for investors and competitions.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-tag">🔄 How It Works</div>
+      <h2 class="section-title">From <em>Concept</em> to<br/>Validated Business</h2>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:48px;">
+        <div style="text-align:center;padding:24px 16px;position:relative;">
+          <div style="font-size:48px;margin-bottom:16px;">🌱</div>
+          <div style="font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--white);margin-bottom:8px;">1. Choose Focus</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.6;">Select your sustainability domain: recycling, clean energy, circular economy, sustainable food, etc.</div>
+          <div style="position:absolute;right:-12px;top:40px;font-size:24px;color:var(--sage);">→</div>
+        </div>
+        <div style="text-align:center;padding:24px 16px;position:relative;">
+          <div style="font-size:48px;margin-bottom:16px;">⚡</div>
+          <div style="font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--white);margin-bottom:8px;">2. Generate Ideas</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.6;">Use our structured ideation tool to generate and refine sustainable business concepts.</div>
+          <div style="position:absolute;right:-12px;top:40px;font-size:24px;color:var(--sage);">→</div>
+        </div>
+        <div style="text-align:center;padding:24px 16px;position:relative;">
+          <div style="font-size:48px;margin-bottom:16px;">🗺️</div>
+          <div style="font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--white);margin-bottom:8px;">3. Build Canvas</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.6;">Map your business model using the Eco-Canvas with environmental impact tracking built in.</div>
+          <div style="position:absolute;right:-12px;top:40px;font-size:24px;color:var(--sage);">→</div>
+        </div>
+        <div style="text-align:center;padding:24px 16px;">
+          <div style="font-size:48px;margin-bottom:16px;">✅</div>
+          <div style="font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--white);margin-bottom:8px;">4. Validate</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.6;">Score your model across five validation dimensions and get your Greenability™ Score.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-copy">© 2025 GreenForge Platform · Built for Sustainable Innovation · UTHM</div>
+      <div class="footer-links">
+        <a href="#" onclick="navigate('ideate')">Ideate</a>
+        <a href="#" onclick="navigate('canvas')">Canvas</a>
+        <a href="#" onclick="navigate('validate')">Validate</a>
+        <a href="#" onclick="navigate('budget')">Docs</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════ PAGE: IDEATE ═══════════════════════════════════════ -->
+<div class="page" id="page-ideate">
+  <div style="height:72px;"></div>
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-tag">💡 Idea Engine</div>
+      <h2 class="section-title">Sustainable Business<br/><em>Idea Generator</em></h2>
+      <p class="section-sub">Choose your sustainability focus areas below, fill in your constraints, and let GreenForge help you structure a viable green business concept.</p>
+
+      <!-- Category Picker -->
+      <div style="margin-bottom:8px;font-size:13px;font-weight:600;color:var(--sand);text-transform:uppercase;letter-spacing:0.6px;">Select Focus Areas (choose up to 3)</div>
+      <div class="categories-grid">
+        <div class="cat-card" onclick="toggleCat(this,'Recycling & Waste')">
+          <div class="cat-emoji">♻️</div>
+          <div class="cat-name">Recycling & Waste</div>
+        </div>
+        <div class="cat-card" onclick="toggleCat(this,'Clean Energy')">
+          <div class="cat-emoji">☀️</div>
+          <div class="cat-name">Clean Energy</div>
+        </div>
+        <div class="cat-card" onclick="toggleCat(this,'Sustainable Food')">
+          <div class="cat-emoji">🌾</div>
+          <div class="cat-name">Sustainable Food</div>
+        </div>
+        <div class="cat-card" onclick="toggleCat(this,'Green Materials')">
+          <div class="cat-emoji">🪵</div>
+          <div class="cat-name">Green Materials</div>
+        </div>
+        <div class="cat-card" onclick="toggleCat(this,'Water Management')">
+          <div class="cat-emoji">💧</div>
+          <div class="cat-name">Water Management</div>
+        </div>
+        <div class="cat-card" onclick="toggleCat(this,'Circular Economy')">
+          <div class="cat-emoji">🔄</div>
+          <div class="cat-name">Circular Economy</div>
+        </div>
+        <div class="cat-card" onclick="toggleCat(this,'Green Tech & AI')">
+          <div class="cat-emoji">🤖</div>
+          <div class="cat-name">Green Tech & AI</div>
+        </div>
+        <div class="cat-card" onclick="toggleCat(this,'Urban Farming')">
+          <div class="cat-emoji">🏙️</div>
+          <div class="cat-name">Urban Farming</div>
+        </div>
+        <div class="cat-card" onclick="toggleCat(this,'Eco-Tourism')">
+          <div class="cat-emoji">🏕️</div>
+          <div class="cat-name">Eco-Tourism</div>
+        </div>
+        <div class="cat-card" onclick="toggleCat(this,'Sustainable Fashion')">
+          <div class="cat-emoji">👗</div>
+          <div class="cat-name">Sustainable Fashion</div>
+        </div>
+        <div class="cat-card" onclick="toggleCat(this,'Carbon Offsetting')">
+          <div class="cat-emoji">🌳</div>
+          <div class="cat-name">Carbon Offsetting</div>
+        </div>
+        <div class="cat-card" onclick="toggleCat(this,'Green Finance')">
+          <div class="cat-emoji">💹</div>
+          <div class="cat-name">Green Finance</div>
+        </div>
+      </div>
+
+      <!-- Ideation Form -->
+      <div class="ideation-tool">
+        <div class="ideation-header">
+          <div>
+            <div class="ideation-title">Business Idea Configurator</div>
+            <div class="ideation-subtitle">Fill in your context to generate a structured sustainable business concept</div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Target Market</label>
+            <input id="inp-market" class="form-input" placeholder="e.g. Urban millennials, SMEs, schools…"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Geographic Region</label>
+            <select id="inp-region" class="form-select">
+              <option value="">Select region…</option>
+              <option>Malaysia — Johor</option>
+              <option>Malaysia — Klang Valley</option>
+              <option>Malaysia — East Malaysia</option>
+              <option>Southeast Asia</option>
+              <option>Global</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Business Model Preference</label>
+            <select id="inp-model" class="form-select">
+              <option value="">Select model…</option>
+              <option>B2C Product</option>
+              <option>B2B Service</option>
+              <option>Platform / Marketplace</option>
+              <option>Subscription</option>
+              <option>Social Enterprise</option>
+              <option>Franchise / Co-op</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Initial Capital (RM)</label>
+            <select id="inp-capital" class="form-select">
+              <option>Under RM 10,000</option>
+              <option selected>RM 10,000 – RM 50,000</option>
+              <option>RM 50,000 – RM 200,000</option>
+              <option>Above RM 200,000</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Problem / Gap You Want to Solve</label>
+            <textarea id="inp-problem" class="form-textarea" placeholder="e.g. Food waste from wet markets ends up in landfills with no monetisation pathway…"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Key Resources You Have</label>
+            <input id="inp-resources" class="form-input" placeholder="e.g. Engineering skills, land, network…"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Innovation Approach</label>
+            <select id="inp-innovation" class="form-select">
+              <option>Tech-enabled Solution</option>
+              <option>Process Innovation</option>
+              <option>New Product / Material</option>
+              <option>Community / Behaviour Change</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:8px;">
+          <button class="btn-secondary" onclick="clearForm()">Clear</button>
+          <button class="btn-primary" onclick="generateIdea()">⚡ Generate Business Idea</button>
+        </div>
+
+        <!-- OUTPUT -->
+        <div class="idea-output" id="idea-output">
+          <div style="height:1px;background:rgba(58,125,84,0.2);margin-bottom:32px;"></div>
+          <div class="idea-result-card">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px;flex-wrap:wrap;">
+              <div>
+                <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--lime);margin-bottom:6px;">✦ Generated Concept</div>
+                <div class="idea-result-title" id="out-title">Loading…</div>
+              </div>
+              <div style="display:flex;gap:8px;flex-shrink:0;">
+                <button class="btn-secondary" style="font-size:13px;padding:10px 18px;" onclick="navigate('canvas')">Use in Canvas →</button>
+                <button class="btn-primary" style="font-size:13px;padding:10px 18px;" onclick="showToast()">💾 Save Idea</button>
+              </div>
+            </div>
+            <div class="idea-result-desc" id="out-desc">—</div>
+            <div class="idea-tags" id="out-tags"></div>
+            <div class="idea-metrics">
+              <div class="metric-item">
+                <div class="metric-val green" id="out-m1">—</div>
+                <div class="metric-label">Market Opportunity</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-val blue" id="out-m2">—</div>
+                <div class="metric-label">Eco Impact Score</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-val amber" id="out-m3">—</div>
+                <div class="metric-label">Revenue Potential</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-val green" id="out-m4">—</div>
+                <div class="metric-label">Scalability Index</div>
+              </div>
+            </div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:var(--white);margin-bottom:12px;">💡 Key Value Propositions</div>
+              <div id="out-vps" style="display:flex;flex-direction:column;gap:8px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-copy">© 2025 GreenForge Platform</div>
+      <div class="footer-links">
+        <a href="#" onclick="navigate('canvas')">Next: BM Canvas →</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════ PAGE: CANVAS ═══════════════════════════════════════ -->
+<div class="page" id="page-canvas">
+  <div style="height:72px;"></div>
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-tag">📋 Business Model Canvas</div>
+      <h2 class="section-title">Eco Business<br/><em>Model Canvas</em></h2>
+      <p class="section-sub">A sustainability-enhanced version of Osterwalder's BMC with an added Environmental Impact dimension. Click any field to edit.</p>
+
+      <div class="bmc-wrapper">
+        <div class="bmc-title-row">
+          <div>
+            <div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--white);">Your Business Model Canvas</div>
+            <div style="font-size:13px;color:var(--muted);margin-top:4px;">All fields are editable — type directly into each cell</div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn-secondary" style="font-size:13px;padding:10px 18px;" onclick="clearCanvas()">🗑 Clear All</button>
+            <button class="btn-secondary" style="font-size:13px;padding:10px 18px;" onclick="loadSampleCanvas()">📥 Load Sample</button>
+            <button class="btn-primary" style="font-size:13px;padding:10px 18px;" onclick="navigate('validate')">Validate → </button>
+          </div>
+        </div>
+
+        <!-- BMC GRID -->
+        <div class="bmc-grid">
+          <!-- Row 1 -->
+          <div class="bmc-cell bmc-span-2" style="border-color:rgba(91,196,212,0.3);">
+            <div class="bmc-cell-label" style="color:var(--sky);">🤝 Key Partnerships</div>
+            <textarea class="bmc-cell-content" id="bmc-kp" placeholder="Who are your key suppliers, partners, and stakeholders?&#10;• Recycling cooperatives&#10;• Municipal councils&#10;• NGO collaborators"></textarea>
+          </div>
+          <div class="bmc-cell" style="display:flex;flex-direction:column;gap:8px;">
+            <div>
+              <div class="bmc-cell-label" style="color:var(--amber);">⚙️ Key Activities</div>
+              <textarea class="bmc-cell-content" id="bmc-ka" style="min-height:60px;" placeholder="Core activities to deliver your value proposition…"></textarea>
+            </div>
+            <div style="border-top:1px solid rgba(58,125,84,0.2);padding-top:8px;">
+              <div class="bmc-cell-label" style="color:var(--lime);">💎 Key Resources</div>
+              <textarea class="bmc-cell-content" id="bmc-kr" style="min-height:60px;" placeholder="Physical, intellectual, human, or financial assets…"></textarea>
+            </div>
+          </div>
+          <div class="bmc-cell bmc-span-2" style="border-color:rgba(181,232,72,0.4);background:rgba(181,232,72,0.04);">
+            <div class="bmc-cell-label" style="color:var(--lime);font-size:12px;">✦ VALUE PROPOSITION</div>
+            <textarea class="bmc-cell-content" id="bmc-vp" style="min-height:110px;font-size:15px;font-weight:500;" placeholder="What unique value do you create?&#10;What problem do you solve?&#10;What is your sustainability edge?"></textarea>
+          </div>
+          <div class="bmc-cell" style="display:flex;flex-direction:column;gap:8px;">
+            <div>
+              <div class="bmc-cell-label" style="color:var(--amber);">📣 Channels</div>
+              <textarea class="bmc-cell-content" id="bmc-ch" style="min-height:60px;" placeholder="How do you reach customers?"></textarea>
+            </div>
+            <div style="border-top:1px solid rgba(58,125,84,0.2);padding-top:8px;">
+              <div class="bmc-cell-label" style="color:var(--sky);">💬 Customer Relationships</div>
+              <textarea class="bmc-cell-content" id="bmc-cr" style="min-height:60px;" placeholder="Type of relationship you build…"></textarea>
+            </div>
+          </div>
+          <div class="bmc-cell bmc-span-2" style="border-color:rgba(91,196,212,0.3);">
+            <div class="bmc-cell-label" style="color:var(--sky);">👥 Customer Segments</div>
+            <textarea class="bmc-cell-content" id="bmc-cs" placeholder="Who are your most important customers?&#10;• Primary segment&#10;• Secondary segment&#10;• Niche market"></textarea>
+          </div>
+        </div>
+
+        <!-- Bottom row -->
+        <div class="bmc-bottom">
+          <div class="bmc-bottom-cell" style="border-color:rgba(232,83,74,0.3);">
+            <div class="bmc-cell-label" style="color:#e8534a;">📉 Cost Structure</div>
+            <textarea class="bmc-cell-content" id="bmc-cost" placeholder="What are the most important costs?&#10;Fixed costs: RM ___&#10;Variable costs: RM ___&#10;Key cost drivers…"></textarea>
+          </div>
+          <div class="bmc-bottom-cell" style="border-color:rgba(181,232,72,0.3);">
+            <div class="bmc-cell-label" style="color:var(--lime);">💰 Revenue Streams</div>
+            <textarea class="bmc-cell-content" id="bmc-rev" placeholder="How does the business earn?&#10;Product sales: RM ___/unit&#10;Service fees: RM ___/month&#10;Platform commissions…"></textarea>
+          </div>
+        </div>
+
+        <!-- Eco Impact row -->
+        <div class="bmc-eco">
+          <div class="bmc-eco-label">🌍 Environmental Impact Layer</div>
+          <input class="bmc-eco-input" id="bmc-eco" placeholder="Describe the environmental benefits: CO₂ reduced, waste diverted (kg), water saved (L), materials recycled, etc."/>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-copy">© 2025 GreenForge Platform</div>
+      <div class="footer-links">
+        <a href="#" onclick="navigate('validate')">Next: Validate →</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════ PAGE: VALIDATE ═══════════════════════════════════════ -->
+<div class="page" id="page-validate">
+  <div style="height:72px;"></div>
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-tag">📊 Validation Engine</div>
+      <h2 class="section-title">Greenability™<br/><em>Score Dashboard</em></h2>
+      <p class="section-sub">Use the sliders below to self-assess your business model across five dimensions. Your composite Greenability™ Score will update in real time.</p>
+
+      <!-- Sliders -->
+      <div style="background:var(--deep);border:1px solid rgba(58,125,84,0.25);border-radius:var(--r-xl);padding:40px;margin-bottom:24px;">
+        <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--white);margin-bottom:28px;">Self-Assessment Sliders</div>
+        <div id="sliders-container" style="display:flex;flex-direction:column;gap:28px;"></div>
+        <div style="margin-top:32px;padding-top:32px;border-top:1px solid rgba(58,125,84,0.2);display:flex;justify-content:flex-end;gap:12px;">
+          <button class="btn-secondary" style="font-size:13px;padding:10px 18px;" onclick="resetSliders()">Reset</button>
+          <button class="btn-primary" style="font-size:13px;padding:10px 18px;" onclick="calcScore()">Calculate Score →</button>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="dashboard-left">
+          <!-- Score Card -->
+          <div class="dash-card">
+            <div class="dash-card-title">🏆 Greenability™ Score</div>
+            <div class="score-ring-container">
+              <div class="score-ring-wrap">
+                <svg viewBox="0 0 120 120" width="120" height="120">
+                  <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(58,125,84,0.2)" stroke-width="10"/>
+                  <circle id="scoreCircle" cx="60" cy="60" r="50" fill="none" stroke="url(#scoreGrad)" stroke-width="10"
+                    stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314"
+                    style="transition:stroke-dashoffset 1s ease;"/>
+                  <defs>
+                    <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#3a7d54"/>
+                      <stop offset="100%" stop-color="#b5e848"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <div class="score-ring-val"><span id="scoreVal">0</span><span>/ 100</span></div>
+              </div>
+              <div class="score-breakdown" id="scoreBreakdown"></div>
+            </div>
+            <div id="scoreVerdict" style="margin-top:20px;padding:14px 18px;border-radius:var(--r-sm);font-size:13px;font-weight:600;display:none;"></div>
+          </div>
+
+          <!-- Recommendations -->
+          <div class="dash-card" id="recCard" style="display:none;">
+            <div class="dash-card-title">📋 Recommendations</div>
+            <div id="recommendations" style="display:flex;flex-direction:column;gap:10px;"></div>
+          </div>
+        </div>
+
+        <div class="dashboard-right">
+          <!-- SDG Alignment -->
+          <div class="dash-card">
+            <div class="dash-card-title">🌐 UN SDG Alignment</div>
+            <div class="sdg-grid" id="sdgGrid"></div>
+          </div>
+          <!-- Impact Timeline -->
+          <div class="dash-card">
+            <div class="dash-card-title">📅 Impact Roadmap</div>
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="timeline-dot active">🌱</div>
+                <div class="timeline-content">
+                  <div class="timeline-phase">Phase 1 — Pilot (Month 1–3)</div>
+                  <div class="timeline-desc">Proof-of-concept, beta users, first feedback loop, validate unit economics.</div>
+                  <span class="timeline-badge" style="background:rgba(181,232,72,0.15);color:var(--lime);">MVP Launch</span>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot">📈</div>
+                <div class="timeline-content">
+                  <div class="timeline-phase">Phase 2 — Growth (Month 4–9)</div>
+                  <div class="timeline-desc">Scale customer acquisition, refine product, seek seed funding, measure impact KPIs.</div>
+                  <span class="timeline-badge" style="background:rgba(91,196,212,0.15);color:var(--sky);">Market Fit</span>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot">🌍</div>
+                <div class="timeline-content">
+                  <div class="timeline-phase">Phase 3 — Scale (Month 10–24)</div>
+                  <div class="timeline-desc">Expand geography, automate operations, publish first ESG impact report, B2B partnerships.</div>
+                  <span class="timeline-badge" style="background:rgba(240,180,41,0.15);color:var(--amber);">Scale Up</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-copy">© 2025 GreenForge Platform</div>
+      <div class="footer-links">
+        <a href="#" onclick="navigate('budget')">Next: Budget & Docs →</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════ PAGE: BUDGET ═══════════════════════════════════════ -->
+<div class="page" id="page-budget">
+  <div style="height:72px;"></div>
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-tag">💰 Project Documentation</div>
+      <h2 class="section-title">Budget Breakdown &<br/><em>Development Process</em></h2>
+      <p class="section-sub">Total allocated budget: RM 25,000.00 — optimised across infrastructure, design, development, marketing, and operations for maximum impact.</p>
+
+      <!-- KPIs -->
+      <div class="budget-overview">
+        <div class="budget-kpi">
+          <div class="budget-kpi-val">RM 25,000</div>
+          <div class="budget-kpi-label">Total Development Budget</div>
+        </div>
+        <div class="budget-kpi">
+          <div class="budget-kpi-val">RM 23,960</div>
+          <div class="budget-kpi-label">Total Allocated</div>
+        </div>
+        <div class="budget-kpi" style="border-color:rgba(181,232,72,0.3);">
+          <div class="budget-kpi-val">RM 1,040</div>
+          <div class="budget-kpi-label">Contingency Reserve (4.2%)</div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="budget-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:25%;">Category</th>
+              <th>Item</th>
+              <th>Specification</th>
+              <th>Duration/Qty</th>
+              <th>Amount (RM)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>🖥 Hosting & Infra</td><td>VPS Hosting (Vultr/DigitalOcean)</td><td>4GB RAM, 2 vCPU, 80GB SSD</td><td>12 months</td><td>RM 600.00</td></tr>
+            <tr><td></td><td>Domain Registration (.my)</td><td>greenforge.my</td><td>2 years</td><td>RM 80.00</td></tr>
+            <tr><td></td><td>SSL Certificate (Let's Encrypt)</td><td>Wildcard SSL</td><td>Annual</td><td>RM 0.00</td></tr>
+            <tr><td></td><td>CDN (Cloudflare Pro)</td><td>DDoS protection + performance</td><td>12 months</td><td>RM 960.00</td></tr>
+            <tr><td>🤖 AI / API Services</td><td>OpenAI GPT-4o API</td><td>Idea generation engine</td><td>Credit: 300K tokens</td><td>RM 450.00</td></tr>
+            <tr><td></td><td>Anthropic Claude API</td><td>Validation & canvas assist</td><td>Credit</td><td>RM 300.00</td></tr>
+            <tr><td>🎨 Design</td><td>Figma Professional</td><td>UI/UX prototyping + design system</td><td>12 months</td><td>RM 600.00</td></tr>
+            <tr><td></td><td>Adobe Creative Suite</td><td>Branding, graphics, assets</td><td>12 months</td><td>RM 1,440.00</td></tr>
+            <tr><td></td><td>Canva Pro</td><td>Pitch deck + social media</td><td>12 months</td><td>RM 550.00</td></tr>
+            <tr><td></td><td>UI Illustrations (Undraw/custom)</td><td>SVG illustration set</td><td>One-time</td><td>RM 200.00</td></tr>
+            <tr><td>👨‍💻 Development</td><td>Lead Developer (Frontend)</td><td>HTML/CSS/JS + React, 120h</td><td>3 months</td><td>RM 6,000.00</td></tr>
+            <tr><td></td><td>Backend Developer</td><td>Node.js / Firebase, 80h</td><td>2 months</td><td>RM 3,200.00</td></tr>
+            <tr><td></td><td>UI/UX Designer</td><td>Wireframe to hi-fi prototype</td><td>1.5 months</td><td>RM 2,400.00</td></tr>
+            <tr><td></td><td>Database (Firebase Blaze Plan)</td><td>Firestore + Auth + Storage</td><td>12 months est.</td><td>RM 600.00</td></tr>
+            <tr><td></td><td>GitHub Copilot / AI Dev Tools</td><td>Developer productivity</td><td>6 months</td><td>RM 300.00</td></tr>
+            <tr><td>📊 Analytics & Tools</td><td>Google Analytics 4</td><td>User behaviour tracking</td><td>Annual (free)</td><td>RM 0.00</td></tr>
+            <tr><td></td><td>Hotjar Business</td><td>Heatmaps + session recording</td><td>6 months</td><td>RM 700.00</td></tr>
+            <tr><td></td><td>Notion Team Plan</td><td>Documentation + project mgmt</td><td>12 months</td><td>RM 480.00</td></tr>
+            <tr><td></td><td>Trello Premium</td><td>Sprint planning + Kanban boards</td><td>12 months</td><td>RM 420.00</td></tr>
+            <tr><td>📣 Testing & QA</td><td>BrowserStack Automate</td><td>Cross-browser testing</td><td>3 months</td><td>RM 600.00</td></tr>
+            <tr><td></td><td>User Testing Sessions</td><td>10 participants, usability study</td><td>One-time</td><td>RM 500.00</td></tr>
+            <tr><td></td><td>Accessibility Audit (Wave / axe)</td><td>WCAG 2.1 compliance check</td><td>One-time</td><td>RM 0.00</td></tr>
+            <tr><td>🚀 Launch & Marketing</td><td>Google Ads (Eco keywords)</td><td>Launch campaign</td><td>3 months</td><td>RM 800.00</td></tr>
+            <tr><td></td><td>Meta Ads (FB + Instagram)</td><td>Awareness + sign-up campaign</td><td>2 months</td><td>RM 600.00</td></tr>
+            <tr><td></td><td>Content Production (copywriting)</td><td>Blog posts + landing copy</td><td>One-time</td><td>RM 480.00</td></tr>
+            <tr><td>📘 Training & Support</td><td>Video Tutorials (Loom Pro)</td><td>Onboarding content creation</td><td>12 months</td><td>RM 200.00</td></tr>
+            <tr><td></td><td>Intercom (Support Chat)</td><td>In-app user support</td><td>6 months</td><td>RM 500.00</td></tr>
+            <tr class="budget-total-row">
+              <td colspan="4" style="text-align:right;padding-right:24px;">TOTAL ALLOCATED</td>
+              <td>RM 23,960.00</td>
+            </tr>
+            <tr style="background:rgba(181,232,72,0.04);">
+              <td colspan="4" style="text-align:right;padding-right:24px;color:var(--muted);font-size:13px;">Contingency Reserve (4.2%)</td>
+              <td style="color:var(--amber);font-weight:700;">RM 1,040.00</td>
+            </tr>
+            <tr style="background:rgba(181,232,72,0.08);border-top:2px solid rgba(181,232,72,0.4);">
+              <td colspan="4" style="text-align:right;padding-right:24px;font-weight:800;font-size:17px;color:var(--white);">GRAND TOTAL</td>
+              <td style="font-weight:800;font-size:20px;color:var(--lime);">RM 25,000.00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Tech Stack -->
+      <div style="background:var(--deep);border:1px solid rgba(58,125,84,0.2);border-radius:var(--r-xl);padding:40px;margin-bottom:32px;">
+        <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--white);margin-bottom:8px;">Technology Stack</div>
+        <div style="font-size:14px;color:var(--muted);margin-bottom:28px;">Selected for performance, cost-efficiency, and sustainability of the stack itself.</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+          <div>
+            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--lime);margin-bottom:14px;">Frontend</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--sand);">
+                <span style="color:var(--sage);">▸</span> HTML5, CSS3, Vanilla JavaScript
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--sand);">
+                <span style="color:var(--sage);">▸</span> React.js (component library)
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--sand);">
+                <span style="color:var(--sage);">▸</span> Tailwind CSS (utility styling)
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--sand);">
+                <span style="color:var(--sage);">▸</span> Chart.js (data visualisation)
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--sand);">
+                <span style="color:var(--sage);">▸</span> Google Fonts (Fraunces, Plus Jakarta Sans)
+              </div>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--sky);margin-bottom:14px;">Backend & Database</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--sand);">
+                <span style="color:var(--sky);">▸</span> Node.js + Express API
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--sand);">
+                <span style="color:var(--sky);">▸</span> Firebase Firestore (NoSQL DB)
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--sand);">
+                <span style="color:var(--sky);">▸</span> Firebase Auth (user accounts)
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--sand);">
+                <span style="color:var(--sky);">▸</span> Firebase Storage (file uploads)
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--sand);">
+                <span style="color:var(--sky);">▸</span> OpenAI GPT-4o API integration
+              </div>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--amber);margin-bottom:14px;">DevOps & Tooling</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--sand);">
+                <span style="color:var(--amber);">▸</span> GitHub (version control + CI/CD)
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--sand);">
+                <span style="color:var(--amber);">▸</span> GitHub Actions (automated deploy)
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--sand);">
+                <span style="color:var(--amber);">▸</span> Cloudflare (CDN + security)
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--sand);">
+                <span style="color:var(--amber);">▸</span> Figma (UI/UX design)
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--sand);">
+                <span style="color:var(--amber);">▸</span> Notion + Trello (project mgmt)
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Development Process -->
+      <div style="font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--white);margin-bottom:8px;letter-spacing:-0.8px;">Development Process</div>
+      <div style="font-size:14px;color:var(--muted);margin-bottom:28px;">Agile SDLC methodology with 2-week sprints across 5 phases.</div>
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="step-num">01</div>
+          <div class="step-body">
+            <div class="step-title">Research & Requirements</div>
+            <div class="step-desc">Conducted stakeholder interviews with 15 green entrepreneurs and 3 sustainability lecturers. Analysed competitive platforms (ImpactBase, Good Finance, StartSomeGood). Defined user personas, user stories, and functional requirements via Notion.</div>
+            <div class="step-tech">
+              <span class="tech-pill">User Interviews</span>
+              <span class="tech-pill">Competitive Analysis</span>
+              <span class="tech-pill">Notion</span>
+            </div>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">02</div>
+          <div class="step-body">
+            <div class="step-title">UI/UX Design & Prototyping</div>
+            <div class="step-desc">Created low-fidelity wireframes in Figma across all 5 pages. Developed a comprehensive design system with typography scale, colour tokens, and component library. Ran 2 rounds of usability testing with 10 participants before handoff.</div>
+            <div class="step-tech">
+              <span class="tech-pill">Figma</span>
+              <span class="tech-pill">Design System</span>
+              <span class="tech-pill">Usability Testing</span>
+            </div>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">03</div>
+          <div class="step-body">
+            <div class="step-title">Frontend Development</div>
+            <div class="step-desc">Implemented responsive HTML5/CSS3/JS website with multi-page SPA architecture. Built interactive components: category selector, idea form, Business Model Canvas, validation sliders, and score dashboard. Focused on accessibility (ARIA labels, keyboard nav).</div>
+            <div class="step-tech">
+              <span class="tech-pill">HTML5</span>
+              <span class="tech-pill">CSS3</span>
+              <span class="tech-pill">Vanilla JS</span>
+              <span class="tech-pill">ARIA</span>
+            </div>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">04</div>
+          <div class="step-body">
+            <div class="step-title">Backend & API Integration</div>
+            <div class="step-desc">Built Node.js REST API connecting to Firebase Firestore for idea storage. Integrated OpenAI GPT-4o for structured business idea generation. Implemented Firebase Auth for user accounts. Deployed on VPS with GitHub Actions CI/CD pipeline.</div>
+            <div class="step-tech">
+              <span class="tech-pill">Node.js</span>
+              <span class="tech-pill">Firebase</span>
+              <span class="tech-pill">OpenAI API</span>
+              <span class="tech-pill">GitHub Actions</span>
+            </div>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">05</div>
+          <div class="step-body">
+            <div class="step-title">Testing, QA & Launch</div>
+            <div class="step-desc">Cross-browser testing via BrowserStack (Chrome, Firefox, Safari, Edge). Performance audit with Lighthouse scoring 94/100. SEO optimisation. Security audit. Soft launch to 50 beta users for feedback before full public release.</div>
+            <div class="step-tech">
+              <span class="tech-pill">BrowserStack</span>
+              <span class="tech-pill">Lighthouse</span>
+              <span class="tech-pill">Beta Testing</span>
+            </div>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">06</div>
+          <div class="step-body">
+            <div class="step-title">Deployment & Maintenance</div>
+            <div class="step-desc">Production deployment on Cloudflare-proxied VPS. Monitoring via Uptime Robot and Firebase Analytics. Weekly sprint reviews with Trello. Hotjar heatmaps drive continuous UX improvements. Monthly feature updates planned.</div>
+            <div class="step-tech">
+              <span class="tech-pill">Cloudflare</span>
+              <span class="tech-pill">Uptime Robot</span>
+              <span class="tech-pill">Hotjar</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project Info -->
+      <div style="background:rgba(181,232,72,0.06);border:1px solid rgba(181,232,72,0.2);border-radius:var(--r-xl);padding:40px;margin-top:40px;">
+        <div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--white);margin-bottom:24px;">Project Information</div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px;">
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;gap:12px;"><span style="font-size:13px;font-weight:700;color:var(--sand);min-width:160px;">Platform Name</span><span style="font-size:13px;color:var(--cream);">GreenForge</span></div>
+            <div style="display:flex;gap:12px;"><span style="font-size:13px;font-weight:700;color:var(--sand);min-width:160px;">Type</span><span style="font-size:13px;color:var(--cream);">Website (HTML/CSS/JavaScript)</span></div>
+            <div style="display:flex;gap:12px;"><span style="font-size:13px;font-weight:700;color:var(--sand);min-width:160px;">Theme</span><span style="font-size:13px;color:var(--cream);">Sustainable Business Ideation & Validation</span></div>
+            <div style="display:flex;gap:12px;"><span style="font-size:13px;font-weight:700;color:var(--sand);min-width:160px;">Total Budget</span><span style="font-size:13px;color:var(--lime);font-weight:700;">RM 25,000.00</span></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;gap:12px;"><span style="font-size:13px;font-weight:700;color:var(--sand);min-width:160px;">Pages</span><span style="font-size:13px;color:var(--cream);">5 (Home, Ideate, Canvas, Validate, Docs)</span></div>
+            <div style="display:flex;gap:12px;"><span style="font-size:13px;font-weight:700;color:var(--sand);min-width:160px;">Key Features</span><span style="font-size:13px;color:var(--cream);">Idea Generator, BM Canvas, Validation Score, SDG Mapper</span></div>
+            <div style="display:flex;gap:12px;"><span style="font-size:13px;font-weight:700;color:var(--sand);min-width:160px;">Development Time</span><span style="font-size:13px;color:var(--cream);">~4 months (16 sprints)</span></div>
+            <div style="display:flex;gap:12px;"><span style="font-size:13px;font-weight:700;color:var(--sand);min-width:160px;">SDG Alignment</span><span style="font-size:13px;color:var(--cream);">SDG 8, 9, 11, 12, 13, 17</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-copy">© 2025 GreenForge · Sustainable Business Ideation Platform · UTHM Final Year Project</div>
+      <div class="footer-links">
+        <a href="#" onclick="navigate('home')">← Back to Home</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════ JAVASCRIPT ═══════════════════════════════════════ -->
+<script>
+// ── NAVIGATION ──
+function navigate(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.page === page);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (page === 'validate') initValidate();
+}
+
+// ── CATEGORY PICKER ──
+let selectedCats = [];
+function toggleCat(el, name) {
+  if (el.classList.contains('selected')) {
+    el.classList.remove('selected');
+    selectedCats = selectedCats.filter(c => c !== name);
+  } else {
+    if (selectedCats.length >= 3) {
+      const first = document.querySelector('.cat-card.selected');
+      if (first) { first.classList.remove('selected'); selectedCats.shift(); }
+    }
+    el.classList.add('selected');
+    selectedCats.push(name);
+  }
+}
+
+// ── IDEA GENERATOR ──
+const ideaBank = [
+  {
+    title: "EcoSwap — Peer-to-Peer Upcycling Marketplace",
+    desc: "A hyperlocal platform connecting households, SMEs, and manufacturers to exchange, sell, or donate pre-used materials and goods. By digitising 'waste-to-resource' transactions, EcoSwap creates value from discarded materials while reducing landfill burden — particularly for Johor's manufacturing corridor.",
+    tags: ["♻️ Circular Economy", "📱 Platform", "🌍 SDG 12", "🏙️ Urban-Rural"],
+    m1: "RM 2.4M", m2: "8.7/10", m3: "RM 380K", m4: "9.2/10",
+    vps: ["Materials stay in economic circulation longer, reducing raw material extraction", "Revenue from transaction commissions + premium listings + B2B bulk-exchange subscriptions", "Partners with municipal councils to redirect waste streams to verified buyers"]
+  },
+  {
+    title: "AgriLoop — Food Waste Bioconversion SaaS",
+    desc: "A B2B software + service platform that helps wet markets, food courts, and agri-businesses digitally track, route, and monetise organic waste — converting food scraps into vermicompost, biogas, or insect protein (Black Soldier Fly). Includes IoT bin sensors, a pickup logistics module, and a live compost marketplace.",
+    tags: ["🌾 Sustainable Food", "🤖 IoT + AI", "🔄 Waste-to-Resource", "🌍 SDG 2, 12"],
+    m1: "RM 5.1M", m2: "9.1/10", m3: "RM 720K", m4: "8.5/10",
+    vps: ["Converts liability (waste disposal cost) into revenue stream for businesses", "IoT sensors + AI routing optimise collection logistics for 30% cost reduction", "Biogas conversion reduces carbon emissions; compost replaces chemical fertilisers"]
+  },
+  {
+    title: "SolarShare — Community Renewable Energy Co-op",
+    desc: "A fintech-enabled platform that allows urban apartment dwellers and SMEs to co-invest in shared solar installations on factory or commercial rooftops. Members receive proportional energy credits and dividends. Removes the barrier of private rooftop requirements for solar adoption.",
+    tags: ["☀️ Clean Energy", "💹 Green Finance", "👥 Social Impact", "🌍 SDG 7, 11"],
+    m1: "RM 8.3M", m2: "8.9/10", m3: "RM 1.2M", m4: "9.5/10",
+    vps: ["Democratises clean energy investment — starting from RM 500 per share", "Revenue from platform transaction fees (2%) + energy management SaaS", "Reduces household energy bills by 20–35% while generating passive income"]
+  },
+  {
+    title: "GreenBuild — Sustainable Construction Material Exchange",
+    desc: "A verified marketplace and logistics network for recycled construction materials: reclaimed timber, crushed concrete aggregate, steel offcuts, and ceramic tile fragments. Targets Johor's booming construction sector with a certificate-of-quality system and carbon-saved tracking.",
+    tags: ["🪵 Green Materials", "🏗️ Construction Tech", "📊 Impact Data", "🌍 SDG 9, 11"],
+    m1: "RM 4.8M", m2: "8.4/10", m3: "RM 650K", m4: "7.8/10",
+    vps: ["Verified material quality reduces contractor risk vs unregulated reclaimed markets", "Carbon certificates issued per transaction for ESG reporting", "Reduces construction waste sent to landfill by an estimated 40 tonnes/month at scale"]
+  }
+];
+
+function generateIdea() {
+  const market = document.getElementById('inp-market').value.trim();
+  const model  = document.getElementById('inp-model').value;
+
+  // pick an idea based on categories or random
+  let idea;
+  if (selectedCats.includes('Clean Energy') || selectedCats.includes('Green Finance')) idea = ideaBank[2];
+  else if (selectedCats.includes('Sustainable Food') || selectedCats.includes('Recycling & Waste')) idea = ideaBank[1];
+  else if (selectedCats.includes('Green Materials') || selectedCats.includes('Circular Economy')) idea = ideaBank[3];
+  else idea = ideaBank[Math.floor(Math.random() * ideaBank.length)];
+
+  // personalise if market filled
+  let titleMod = idea.title;
+  if (market) titleMod = idea.title + (market ? ' (for ' + market + ')' : '');
+
+  document.getElementById('out-title').textContent = titleMod;
+  document.getElementById('out-desc').textContent = idea.desc;
+  document.getElementById('out-m1').textContent = idea.m1;
+  document.getElementById('out-m2').textContent = idea.m2;
+  document.getElementById('out-m3').textContent = idea.m3;
+  document.getElementById('out-m4').textContent = idea.m4;
+
+  const tagsEl = document.getElementById('out-tags');
+  tagsEl.innerHTML = '';
+  const tagClasses = ['tag-lime','tag-sky','tag-amber','tag-lime'];
+  idea.tags.forEach((t, i) => {
+    tagsEl.innerHTML += `<span class="idea-tag ${tagClasses[i % tagClasses.length]}">${t}</span>`;
+  });
+
+  const vpsEl = document.getElementById('out-vps');
+  vpsEl.innerHTML = '';
+  idea.vps.forEach(vp => {
+    vpsEl.innerHTML += `<div style="display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--sand);line-height:1.6;padding:10px 14px;background:rgba(14,33,24,0.5);border-radius:8px;border-left:3px solid var(--sage);">
+      <span style="color:var(--lime);flex-shrink:0;margin-top:1px;">▸</span> ${vp}
+    </div>`;
+  });
+
+  document.getElementById('idea-output').classList.add('visible');
+  setTimeout(() => document.getElementById('idea-output').scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+}
+
+function clearForm() {
+  ['inp-market','inp-problem','inp-resources'].forEach(id => document.getElementById(id).value = '');
+  ['inp-region','inp-model','inp-capital','inp-innovation'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.selectedIndex = 0;
+  });
+  document.querySelectorAll('.cat-card.selected').forEach(c => c.classList.remove('selected'));
+  selectedCats = [];
+  document.getElementById('idea-output').classList.remove('visible');
+}
+
+// ── CANVAS ──
+const sampleCanvas = {
+  kp: "• Johor Bahru City Council (waste collection data)\n• SGS Malaysia (material certification)\n• Logistics partner: J&T Express\n• NGO: WWF Malaysia",
+  ka: "• Platform development & maintenance\n• Seller/buyer onboarding\n• Quality assurance of materials\n• Carbon impact calculation",
+  kr: "• Web platform & mobile app\n• Logistics network\n• Material quality database\n• Sustainability certification IP",
+  vp: "A verified circular marketplace that turns construction & industrial surplus materials into affordable, certified resources — saving businesses disposal costs while reducing Malaysia's 3 million tonnes of construction waste annually.",
+  ch: "• Direct B2B sales via platform\n• Google/Meta digital ads\n• Industry events & expos\n• API integration with ERP systems",
+  cr: "• Dedicated account managers for enterprise\n• Community forum & peer reviews\n• Monthly impact newsletters",
+  cs: "• Primary: Construction SMEs (JB corridor)\n• Secondary: Property developers\n• Niche: Eco-conscious renovators",
+  cost: "• Platform hosting: RM 600/mo\n• 2× sales staff: RM 8,000/mo\n• Logistics subsidies: RM 3,000/mo\n• Marketing: RM 2,000/mo",
+  rev: "• Transaction commission: 5% of deal value\n• Premium verified seller listing: RM 200/mo\n• ESG reporting module (SaaS): RM 500/mo\n• Carbon certificate issuance: RM 50/cert",
+  eco: "Estimated 40 tonnes/month of construction waste diverted from landfill. ~12 tonnes CO₂e saved per month through reduced virgin material production. 100% of transport routes optimised for minimal mileage."
+};
+function loadSampleCanvas() {
+  Object.keys(sampleCanvas).forEach(k => {
+    const el = document.getElementById('bmc-' + k);
+    if (el) el.value = sampleCanvas[k];
+  });
+  showToast('✓ Sample canvas loaded!');
+}
+function clearCanvas() {
+  ['kp','ka','kr','vp','ch','cr','cs','cost','rev','eco'].forEach(k => {
+    const el = document.getElementById('bmc-' + k);
+    if (el) el.value = '';
+  });
+}
+
+// ── VALIDATION ──
+const dimensions = [
+  { id: 'market',   label: 'Market Viability',     desc: 'Does a large enough paying market exist?', color: '#b5e848', emoji: '📈' },
+  { id: 'eco',      label: 'Environmental Impact',  desc: 'How significant is the positive eco impact?', color: '#5bc4d4', emoji: '🌿' },
+  { id: 'finance',  label: 'Financial Feasibility', desc: 'Is unit economics & path to profit realistic?', color: '#f0b429', emoji: '💰' },
+  { id: 'social',   label: 'Social Benefit',        desc: 'Does it create jobs, equity, or community value?', color: '#b5e848', emoji: '👥' },
+  { id: 'scale',    label: 'Scalability',            desc: 'Can the model grow without linear cost increase?', color: '#5bc4d4', emoji: '🚀' },
+];
+
+let sliderVals = { market: 60, eco: 70, finance: 50, social: 55, scale: 65 };
+
+function initValidate() {
+  const container = document.getElementById('sliders-container');
+  if (container.children.length > 0) return;
+  dimensions.forEach(d => {
+    container.innerHTML += `
+      <div style="display:grid;grid-template-columns:200px 1fr 48px;gap:16px;align-items:center;">
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--white);">${d.emoji} ${d.label}</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px;">${d.desc}</div>
+        </div>
+        <div style="position:relative;">
+          <input type="range" id="sl-${d.id}" min="0" max="100" value="${sliderVals[d.id]}"
+            oninput="updateSlider('${d.id}', this.value)"
+            style="width:100%;-webkit-appearance:none;height:6px;border-radius:3px;
+            background:linear-gradient(to right,${d.color} 0%,${d.color} ${sliderVals[d.id]}%,rgba(58,125,84,0.2) ${sliderVals[d.id]}%,rgba(58,125,84,0.2) 100%);
+            outline:none;cursor:pointer;"/>
+        </div>
+        <div id="sv-${d.id}" style="font-size:16px;font-weight:700;color:${d.color};text-align:right;">${sliderVals[d.id]}</div>
+      </div>`;
+  });
+  initSDG();
+}
+
+function updateSlider(id, val) {
+  sliderVals[id] = parseInt(val);
+  document.getElementById('sv-' + id).textContent = val;
+  const d = dimensions.find(x => x.id === id);
+  const sl = document.getElementById('sl-' + id);
+  sl.style.background = `linear-gradient(to right,${d.color} 0%,${d.color} ${val}%,rgba(58,125,84,0.2) ${val}%,rgba(58,125,84,0.2) 100%)`;
+}
+
+function resetSliders() {
+  sliderVals = { market: 60, eco: 70, finance: 50, social: 55, scale: 65 };
+  dimensions.forEach(d => {
+    const sl = document.getElementById('sl-' + d.id);
+    if (sl) { sl.value = sliderVals[d.id]; updateSlider(d.id, sliderVals[d.id]); }
+  });
+  document.getElementById('scoreCircle').style.strokeDashoffset = 314;
+  document.getElementById('scoreVal').textContent = '0';
+  document.getElementById('scoreVerdict').style.display = 'none';
+  document.getElementById('recCard').style.display = 'none';
+}
+
+function calcScore() {
+  const vals = Object.values(sliderVals);
+  const avg = Math.round(vals.reduce((a, b) => a + b, 0) / vals.length);
+
+  // Animate ring
+  const circumference = 314;
+  const offset = circumference - (avg / 100) * circumference;
+  document.getElementById('scoreCircle').style.strokeDashoffset = offset;
+  document.getElementById('scoreVal').textContent = avg;
+
+  // Breakdown
+  const bd = document.getElementById('scoreBreakdown');
+  bd.innerHTML = '';
+  dimensions.forEach(d => {
+    bd.innerHTML += `<div class="score-row">
+      <span class="score-row-label">${d.emoji} ${d.label}</span>
+      <div class="score-row-bar"><div class="score-row-fill" style="width:${sliderVals[d.id]}%;background:${d.color};"></div></div>
+      <span class="score-row-val">${sliderVals[d.id]}</span>
+    </div>`;
+  });
+
+  // Verdict
+  const v = document.getElementById('scoreVerdict');
+  v.style.display = 'block';
+  if (avg >= 80) {
+    v.style.background = 'rgba(181,232,72,0.1)';
+    v.style.borderLeft = '4px solid var(--lime)';
+    v.style.color = 'var(--lime)';
+    v.innerHTML = '🏆 <strong>Excellent — Strong Greenability!</strong> This concept demonstrates exceptional sustainability credentials with high market and financial viability. Ready for investor presentation.';
+  } else if (avg >= 60) {
+    v.style.background = 'rgba(240,180,41,0.1)';
+    v.style.borderLeft = '4px solid var(--amber)';
+    v.style.color = 'var(--amber)';
+    v.innerHTML = '⚡ <strong>Good — Refine & Strengthen</strong> Solid foundation with clear sustainability credentials. Focus on improving weaker dimensions before pitching to investors.';
+  } else {
+    v.style.background = 'rgba(232,83,74,0.1)';
+    v.style.borderLeft = '4px solid var(--danger)';
+    v.style.color = 'var(--danger)';
+    v.innerHTML = '⚠️ <strong>Needs Development</strong> The concept needs significant refinement. Consider pivoting the model or conducting deeper market validation.';
+  }
+
+  // Recommendations
+  const recCard = document.getElementById('recCard');
+  recCard.style.display = 'block';
+  const recs = document.getElementById('recommendations');
+  recs.innerHTML = '';
+  const low = dimensions.filter(d => sliderVals[d.id] < 65);
+  if (low.length === 0) {
+    recs.innerHTML = `<div style="font-size:13px;color:var(--lime);padding:12px;background:rgba(181,232,72,0.08);border-radius:8px;">✅ All dimensions score above 65 — excellent balance across the model!</div>`;
+  } else {
+    const recMap = {
+      market: "Conduct a deeper market sizing exercise. Use TAM/SAM/SOM framework and validate demand through 10+ customer discovery interviews.",
+      eco: "Quantify your environmental impact with specific metrics (CO₂ saved, waste diverted). Seek ISO 14001 or B-Corp alignment.",
+      finance: "Model your unit economics carefully. Project CAC, LTV, and break-even timeline. Consider revenue diversification.",
+      social: "Document job creation, community benefits, and equity outcomes. Consider inclusive hiring or cooperative ownership structures.",
+      scale: "Identify which activities can be automated or digitised. Consider platform/marketplace models that scale without linear cost growth."
+    };
+    low.forEach(d => {
+      recs.innerHTML += `<div style="padding:12px 16px;background:rgba(14,33,24,0.6);border-left:3px solid ${d.color};border-radius:0 8px 8px 0;font-size:13px;color:var(--sand);line-height:1.6;">
+        <strong style="color:var(--white);">${d.emoji} Improve ${d.label}:</strong> ${recMap[d.id]}
+      </div>`;
+    });
+  }
+}
+
+// ── SDG ──
+const sdgData = [
+  { num: 1, label: 'No Poverty',     color: '#e5243b' },
+  { num: 2, label: 'Zero Hunger',    color: '#dda63a' },
+  { num: 7, label: 'Clean Energy',   color: '#fcc30b' },
+  { num: 8, label: 'Decent Work',    color: '#a21942' },
+  { num: 9, label: 'Industry',       color: '#fd6925' },
+  { num: 11, label: 'Sust. Cities',  color: '#fd9d24' },
+  { num: 12, label: 'Resp. Consump.',color: '#bf8b2e' },
+  { num: 13, label: 'Climate Action',color: '#3f7e44' },
+  { num: 17, label: 'Partnerships',  color: '#19486a' },
+];
+function initSDG() {
+  const grid = document.getElementById('sdgGrid');
+  grid.innerHTML = '';
+  sdgData.forEach(s => {
+    grid.innerHTML += `<div class="sdg-badge" style="background:${s.color};" title="SDG ${s.num}: ${s.label}">
+      <div class="sdg-num">${s.num}</div>${s.label}
+    </div>`;
+  });
+}
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg || '✓ Idea saved to your workspace!';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', () => {
+  // Pre-select a category for demo
+});
+</script>
+</body>
+</html>
